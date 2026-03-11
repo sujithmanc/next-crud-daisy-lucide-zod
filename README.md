@@ -4,6 +4,14 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 First, run the development server:
 
+Make sure:
+- You have the virtual db in your database.
+
+```
+npx drizzle-kit push
+npx drizzle-kit studio
+```
+
 ```bash
 npm run dev
 # or

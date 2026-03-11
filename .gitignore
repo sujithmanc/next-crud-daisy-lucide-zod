@@ -21,9 +21,9 @@ next-env.d.ts
 
 # --- Environment Variables ---
 # Ignore all .env files to prevent leaking secrets
-.env
-.env.*
-.env*.local
+# .env
+# .env.*
+# .env*.local
 
 # Allow the example file so developers know what keys are needed
 !.env.example
