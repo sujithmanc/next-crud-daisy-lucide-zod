@@ -8,6 +8,12 @@ export const ROUTES = [
     //     description: 'Return to the main dashboard overview.'
     // },
     {
+        path: '/demo',
+        label: 'Demo',
+        Icon: User, // Changed to generic User for example
+        description: 'Just to check loading states'
+    },
+    {
         path: '/emps',
         label: 'Employee',
         Icon: User, // Changed to generic User for example
