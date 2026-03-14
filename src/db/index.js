@@ -1,8 +1,11 @@
 import 'dotenv/config';
 import { drizzle } from "drizzle-orm/mysql2";
+import * as scheme from "./schema";
 
-const db = drizzle(
+export const db = drizzle(
     {
+        schema : scheme,
+        mode: "default",
         connection: process.env.DATABASE_URL,
         casing: 'snake_case',
         logger: true

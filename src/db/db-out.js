@@ -2,7 +2,7 @@ import { env } from "@/data/env/server"
 import { drizzle } from "drizzle-orm/mysql2";
 import * as scheme from "./schema";
 
-export const db2 = drizzle({
+const db = drizzle({
     schema : scheme,
     mode: "default",
     connection: {

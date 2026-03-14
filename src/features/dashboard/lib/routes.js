@@ -1,4 +1,4 @@
-import { Home, User, Clapperboard, Users } from 'lucide-react';
+import { Home, User, Clapperboard, Users, Bookmark, Joystick } from 'lucide-react';
 
 export const ROUTES = [
     // {
@@ -30,5 +30,17 @@ export const ROUTES = [
         label: 'Users',
         Icon: Users,
         description: 'System administration and user roles.'
+    },
+    {
+        path: '/bookmarks',
+        label: 'Bookmarks',
+        Icon: Bookmark,
+        description: 'All the bookmarked Websites'
+    },
+    {
+        path: '/games',
+        label: 'Games',
+        Icon: Joystick,
+        description: 'All the games List'
     }
 ];
