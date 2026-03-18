@@ -56,7 +56,7 @@ export default async function DatePage({ params }) {
                         </div>
 
                         {/* Answer */}
-                        <div className="collapse-content text-sm whitespace-pre-line">
+                        <div className="collapse-content text-success text-xl whitespace-pre-line">
                             {note.ans}
                         </div>
                     </div>
