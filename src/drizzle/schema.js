@@ -1,4 +1,4 @@
-import { mysqlTable as table, text } from "drizzle-orm/mysql-core";
+import { boolean, int, mysqlTable as table, text } from "drizzle-orm/mysql-core";
 import {
     mysqlTable,
     serial,
@@ -42,3 +42,15 @@ export const qaNotes = mysqlTable("qa_notes", {
         .onUpdateNow()
         .notNull(),
 });
+
+export const employees = mysqlTable('employees', {
+  id: serial('id').primaryKey(),
+  name: varchar('name', { length: 255 }),
+  age: int('age'),
+  dOB: date('dOB'),
+  desc: text('desc'),
+  gender: varchar('gender', { length: 255 }),
+  skills: varchar('skills', { length: 255 }),
+  city: varchar('city', { length: 255 }),
+  active: boolean('active').default(false),
+})
