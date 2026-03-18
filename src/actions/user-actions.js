@@ -1,7 +1,7 @@
 "use server";
 
-import { db } from "@/db";
-import { users } from "@/db/schema";
+import { db } from "@/drizzle";
+import { users } from "@/drizzle/schema";
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import { createUserSchema, updateUserSchema } from "@/validations/user-schema";

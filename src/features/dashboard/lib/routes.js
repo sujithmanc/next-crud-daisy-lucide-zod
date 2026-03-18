@@ -1,12 +1,6 @@
-import { Home, User, Clapperboard, Users, Bookmark, Joystick } from 'lucide-react';
+import { Home, User, Clapperboard, Users, Bookmark, Joystick, Notebook } from 'lucide-react';
 
 export const ROUTES = [
-    // {
-    //     path: '/',
-    //     label: 'Home',
-    //     Icon: Home,
-    //     description: 'Return to the main dashboard overview.'
-    // },
     {
         path: '/demo',
         label: 'Demo',
@@ -42,5 +36,11 @@ export const ROUTES = [
         label: 'Games',
         Icon: Joystick,
         description: 'All the games List'
+    },
+    {
+        path: '/qanotes',
+        label: 'QA Notes',
+        Icon: Notebook,
+        description: 'Learning throught Questions and Answers'
     }
 ];

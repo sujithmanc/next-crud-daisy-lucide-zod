@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { userRoles } from "@/db/schema";
+import { userRoles } from "@/drizzle/schema";
 
 export const createUserSchema = z.object({
   name:     z.string().min(2).max(100),

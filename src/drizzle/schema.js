@@ -1,4 +1,4 @@
-import { mysqlTable as table } from "drizzle-orm/mysql-core";
+import { mysqlTable as table, text } from "drizzle-orm/mysql-core";
 import {
     mysqlTable,
     serial,
@@ -23,4 +23,22 @@ export const users = table("users", {
     skills: json("skills").$type(),
     createdAt: timestamp("created_at").defaultNow(),
     updatedAt: timestamp("updated_at").defaultNow().onUpdateNow(),
+});
+
+// QA Notes table
+export const qaNotes = mysqlTable("qa_notes", {
+    id: serial("id").autoincrement().primaryKey(),
+
+    que: text("que").notNull(),
+    ans: text("ans").notNull(),
+
+    // ISO date: YYYY-MM-DD
+    date: varchar("date", { length: 10 }).notNull(),
+
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+
+    updatedAt: timestamp("updated_at")
+        .defaultNow()
+        .onUpdateNow()
+        .notNull(),
 });
