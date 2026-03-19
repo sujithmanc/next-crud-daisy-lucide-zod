@@ -1,6 +1,92 @@
-FileName: actions.js
-RelativePath: actions.js
-FileContent:
+# 📦 emp Code Export
+
+## 📑 Table of Contents
+
+- [[id]\edit\page.jsx](#[id]editpagejsx)
+- [[id]\page.jsx](#[id]pagejsx)
+- [actions.js](#actionsjs)
+- [components\EmployeeDeleteButton.jsx](#componentsemployeedeletebuttonjsx)
+- [components\EmployeeDetails.jsx](#componentsemployeedetailsjsx)
+- [components\EmployeeForm copy.jsx](#componentsemployeeform copyjsx)
+- [components\EmployeeForm.jsx](#componentsemployeeformjsx)
+- [components\EmployeeTable.jsx](#componentsemployeetablejsx)
+- [components\Timer.js](#componentstimerjs)
+- [layout.js](#layoutjs)
+- [new\page.jsx](#newpagejsx)
+- [page.jsx](#pagejsx)
+- [repository.js](#repositoryjs)
+- [schema.js](#schemajs)
+- [service.js](#servicejs)
+- [util\util.js](#utilutiljs)
+- [validations.js](#validationsjs)
+
+---
+
+## 📄 page.jsx
+**Path:** `[id]\edit\page.jsx`
+
+<a id="[id]editpagejsx"></a>
+
+```jsx
+import { updateEmployeeAction } from '../../actions'
+import { getEmployeeById } from '../../service'
+import EmployeeForm from '../../components/EmployeeForm'
+
+export default async function EditEmployeePage({ params }) {
+  const { id } = await params
+  const raw = await getEmployeeById(id)
+
+  const formatted = new Date(raw.dOB).toISOString().split("T")[0];
+  const record = { ...raw, dOB: formatted }
+
+  //const boundAction = updateEmployeeAction.bind(null, id)
+
+  return (
+    <div className="p-6 flex justify-center">
+      <EmployeeForm action={updateEmployeeAction} initialData={record} empId={id} cancelHref="/emp" />
+    </div>
+  )
+}
+
+```
+
+---
+
+## 📄 page.jsx
+**Path:** `[id]\page.jsx`
+
+<a id="[id]pagejsx"></a>
+
+```jsx
+import { getEmployeeById } from '../service'
+import EmployeeDetails from '../components/EmployeeDetails'
+import { formatDate } from '../util/util';
+
+export default async function EmployeeViewPage({ params }) {
+  const { id } = await params;
+  const raw = await getEmployeeById(id);
+
+  raw.map(parseField).join('\n')
+
+  const record = { ...raw, dOB: formatDate(raw.dOB) }
+
+  return (
+    <div className="p-6 flex justify-center">
+      <EmployeeDetails record={record} id={id} />
+    </div>
+  )
+}
+
+```
+
+---
+
+## 📄 actions.js
+**Path:** `actions.js`
+
+<a id="actionsjs"></a>
+
+```javascript
 // Project: Employee Management System
 // Used to manage the whole employee system
 
@@ -86,10 +172,16 @@ export async function deleteEmployeeAction(id) {
   revalidatePath('/emp')
 }
 
+```
+
 ---
-FileName: EmployeeDeleteButton.jsx
-RelativePath: components\EmployeeDeleteButton.jsx
-FileContent:
+
+## 📄 EmployeeDeleteButton.jsx
+**Path:** `components\EmployeeDeleteButton.jsx`
+
+<a id="componentsemployeedeletebuttonjsx"></a>
+
+```jsx
 'use client'
 
 import { useTransition } from 'react'
@@ -116,10 +208,16 @@ export default function EmployeeDeleteButton({ id }) {
   )
 }
 
+```
+
 ---
-FileName: EmployeeDetails.jsx
-RelativePath: components\EmployeeDetails.jsx
-FileContent:
+
+## 📄 EmployeeDetails.jsx
+**Path:** `components\EmployeeDetails.jsx`
+
+<a id="componentsemployeedetailsjsx"></a>
+
+```jsx
 import Link from 'next/link'
 
 export default function EmployeeDetails({ record, id }) {
@@ -171,10 +269,16 @@ export default function EmployeeDetails({ record, id }) {
   )
 }
 
+```
+
 ---
-FileName: EmployeeForm copy.jsx
-RelativePath: components\EmployeeForm copy.jsx
-FileContent:
+
+## 📄 EmployeeForm copy.jsx
+**Path:** `components\EmployeeForm copy.jsx`
+
+<a id="componentsemployeeform copyjsx"></a>
+
+```jsx
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -398,10 +502,16 @@ export default function EmployeeForm({ action, initialData = null, cancelHref = 
   )
 }
 
+```
+
 ---
-FileName: EmployeeForm.jsx
-RelativePath: components\EmployeeForm.jsx
-FileContent:
+
+## 📄 EmployeeForm.jsx
+**Path:** `components\EmployeeForm.jsx`
+
+<a id="componentsemployeeformjsx"></a>
+
+```jsx
 'use client'
 
 import { useForm } from 'react-hook-form'
@@ -668,10 +778,16 @@ export default function EmployeeForm({
     </div>
   )
 }
+```
+
 ---
-FileName: EmployeeTable.jsx
-RelativePath: components\EmployeeTable.jsx
-FileContent:
+
+## 📄 EmployeeTable.jsx
+**Path:** `components\EmployeeTable.jsx`
+
+<a id="componentsemployeetablejsx"></a>
+
+```jsx
 import Link from 'next/link'
 import EmployeeDeleteButton from './EmployeeDeleteButton'
 
@@ -706,10 +822,16 @@ export default function EmployeeTable({ rows }) {
   )
 }
 
+```
+
 ---
-FileName: Timer.js
-RelativePath: components\Timer.js
-FileContent:
+
+## 📄 Timer.js
+**Path:** `components\Timer.js`
+
+<a id="componentstimerjs"></a>
+
+```javascript
 "use client";
 
 import { useEffect, useState } from "react";
@@ -771,10 +893,16 @@ export default function Timer() {
         </div>
     );
 }
+```
+
 ---
-FileName: layout.js
-RelativePath: layout.js
-FileContent:
+
+## 📄 layout.js
+**Path:** `layout.js`
+
+<a id="layoutjs"></a>
+
+```javascript
 import Timer from "./components/Timer";
 
 
@@ -787,10 +915,16 @@ export default function EmpLayout({ children }) {
         </>
     )
 }
+```
+
 ---
-FileName: page.jsx
-RelativePath: new\page.jsx
-FileContent:
+
+## 📄 page.jsx
+**Path:** `new\page.jsx`
+
+<a id="newpagejsx"></a>
+
+```jsx
 import { createEmployeeAction, updateEmployeeAction } from '../actions'
 import EmployeeForm from '../components/EmployeeForm'
 
@@ -802,10 +936,16 @@ export default function NewEmployeePage() {
   )
 }
 
+```
+
 ---
-FileName: page.jsx
-RelativePath: page.jsx
-FileContent:
+
+## 📄 page.jsx
+**Path:** `page.jsx`
+
+<a id="pagejsx"></a>
+
+```jsx
 // Project: Employee Management System
 // Used to manage the whole employee system
 
@@ -827,10 +967,16 @@ export default async function EmployeeListPage() {
   )
 }
 
+```
+
 ---
-FileName: repository.js
-RelativePath: repository.js
-FileContent:
+
+## 📄 repository.js
+**Path:** `repository.js`
+
+<a id="repositoryjs"></a>
+
+```javascript
 // Project: Employee Management System
 // Used to manage the whole employee system
 
@@ -873,10 +1019,16 @@ export async function remove(id) {
   return db.delete(employees).where(eq(employees.id, id))
 }
 
+```
+
 ---
-FileName: schema.js
-RelativePath: schema.js
-FileContent:
+
+## 📄 schema.js
+**Path:** `schema.js`
+
+<a id="schemajs"></a>
+
+```javascript
 // Project: Employee Management System
 // Used to manage the whole employee system
 
@@ -894,10 +1046,16 @@ export const employees = mysqlTable('employees', {
   active: boolean('active').default(false),
 })
 
+```
+
 ---
-FileName: service.js
-RelativePath: service.js
-FileContent:
+
+## 📄 service.js
+**Path:** `service.js`
+
+<a id="servicejs"></a>
+
+```javascript
 // Project: Employee Management System
 // Used to manage the whole employee system
 
@@ -927,10 +1085,16 @@ export async function deleteEmployee(id) {
   return remove(Number(id))
 }
 
+```
+
 ---
-FileName: util.js
-RelativePath: util\util.js
-FileContent:
+
+## 📄 util.js
+**Path:** `util\util.js`
+
+<a id="utilutiljs"></a>
+
+```javascript
 export const formatDate = (date) => {
     const d = new Date(date);
 
@@ -940,10 +1104,16 @@ export const formatDate = (date) => {
 
     return `${day}-${month}-${year}`;
 };
+```
+
 ---
-FileName: validations.js
-RelativePath: validations.js
-FileContent:
+
+## 📄 validations.js
+**Path:** `validations.js`
+
+<a id="validationsjs"></a>
+
+```javascript
 // Project: Employee Management System
 // Used to manage the whole employee system
 
@@ -962,51 +1132,6 @@ export const employeeSchema = z.object({
   active: z.literal(true, { errorMap: () => ({ message: 'Active must be enabled' }) }),
 })
 
----
-FileName: page.jsx
-RelativePath: [id]\edit\page.jsx
-FileContent:
-import { updateEmployeeAction } from '../../actions'
-import { getEmployeeById } from '../../service'
-import EmployeeForm from '../../components/EmployeeForm'
-
-export default async function EditEmployeePage({ params }) {
-  const { id } = await params
-  const raw = await getEmployeeById(id)
-
-  const formatted = new Date(raw.dOB).toISOString().split("T")[0];
-  const record = { ...raw, dOB: formatted }
-
-  //const boundAction = updateEmployeeAction.bind(null, id)
-
-  return (
-    <div className="p-6 flex justify-center">
-      <EmployeeForm action={updateEmployeeAction} initialData={record} empId={id} cancelHref="/emp" />
-    </div>
-  )
-}
-
----
-FileName: page.jsx
-RelativePath: [id]\page.jsx
-FileContent:
-import { getEmployeeById } from '../service'
-import EmployeeDetails from '../components/EmployeeDetails'
-import { formatDate } from '../util/util';
-
-export default async function EmployeeViewPage({ params }) {
-  const { id } = await params;
-  const raw = await getEmployeeById(id);
-
-  raw.map(parseField).join('\n')
-
-  const record = { ...raw, dOB: formatDate(raw.dOB) }
-
-  return (
-    <div className="p-6 flex justify-center">
-      <EmployeeDetails record={record} id={id} />
-    </div>
-  )
-}
+```
 
 ---
