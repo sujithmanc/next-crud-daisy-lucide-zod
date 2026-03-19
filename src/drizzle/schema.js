@@ -54,3 +54,15 @@ export const employees = mysqlTable('employees', {
   city: varchar('city', { length: 255 }),
   active: boolean('active').default(false),
 })
+
+
+export const products = mysqlTable('products', {
+  id: serial('id').primaryKey(),
+  name: varchar('name', { length: 255 }),
+  price: int('price'),
+  category: varchar('category', { length: 255 }),
+  description: text('description'),
+  launchDate: date('launchDate'),
+  tags: json('tags'),
+  inStock: boolean('inStock').default(false),
+})
