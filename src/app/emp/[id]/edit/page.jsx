@@ -8,7 +8,7 @@ export default async function EditEmployeePage({ params }) {
 
   const formatted = new Date(raw.dOB).toISOString().split("T")[0];
   const record = { ...raw, dOB: formatted }
-  
+
   //const boundAction = updateEmployeeAction.bind(null, id)
 
   return (

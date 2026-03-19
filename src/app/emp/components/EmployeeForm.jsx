@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { employeeSchema } from '../validations'
 import { useState } from 'react'
+import Link from 'next/link'
 
 export default function EmployeeForm({
   action,
@@ -243,9 +244,9 @@ export default function EmployeeForm({
 
           {/* Actions */}
           <div className="card-actions justify-end mt-4 gap-2">
-            <a href={cancelHref} className="btn btn-ghost">
+            <Link href={cancelHref} className="btn btn-ghost">
               Cancel
-            </a>
+            </Link>
             <button
               type="submit"
               className="btn btn-primary"
