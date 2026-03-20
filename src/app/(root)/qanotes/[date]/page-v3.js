@@ -3,7 +3,6 @@ import { qaNotes } from "@/drizzle/schema";
 import { eq } from "drizzle-orm";
 import db from "@/drizzle";
 import FlipCard from "../components/FlipCard";
-import CardGrid from "../components/CardGrid";
 
 export default async function DatePage({ params }) {
   const { date } = await params;
@@ -15,7 +14,7 @@ export default async function DatePage({ params }) {
     .orderBy(qaNotes.id);
 
   return (
-    <div className="mx-auto p-4">
+    <div className="max-w-2xl mx-auto p-4">
       {/* Header */}
       <div className="flex justify-between items-center mb-4">
         <div>
@@ -37,12 +36,17 @@ export default async function DatePage({ params }) {
         </div>
       )}
 
-      {
-        notes.length > 0 && (
-          <CardGrid notes={notes} />
-        )
-      }
-
+      {/* Accordion */}
+      <div className="space-y-2">
+        {notes.map((note) => (
+          <div
+            key={note.id}
+            className="flex flex-wrap gap-6 justify-center"
+          >
+            <FlipCard question={note.que} answer={note.ans} />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
