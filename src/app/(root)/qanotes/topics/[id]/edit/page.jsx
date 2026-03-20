@@ -1,5 +1,5 @@
 import { createOrUpdateTopicAction } from '../../actions'
-import { getTopicById } from '../../service'
+  import { getTopicById } from '../../service'
 import TopicForm from '../../components/TopicForm'
 import { HOME_PAGE } from '../../util/constants'
 

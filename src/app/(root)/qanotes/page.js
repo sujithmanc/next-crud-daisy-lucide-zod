@@ -21,6 +21,9 @@ export default async function QaNotesPage() {
             <div className="flex justify-between items-center mb-4">
                 <h1 className="text-2xl font-bold">QA Notes</h1>
 
+                <Link href="/qanotes/topics" className="btn btn-secoundary">
+                    + Topic
+                </Link>
                 <Link href="/qanotes/create" className="btn btn-primary">
                     + New
                 </Link>

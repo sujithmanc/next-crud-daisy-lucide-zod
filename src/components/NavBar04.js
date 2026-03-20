@@ -4,6 +4,7 @@ import { ROUTES } from "@/features/dashboard/lib/routes";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import NavLinks from "./navs/NavLinks";
+import Timer from "./Timer";
 
 const NavBar04 = () => {
   const [theme, setTheme] = useState("light");
@@ -78,6 +79,8 @@ const NavBar04 = () => {
               </li>
             ))}
           </ul>
+          <Timer />
+          <a className="btn btn-ghost text-xl">daisyUI</a>
         </div>
       </div>
 

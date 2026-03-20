@@ -1,22 +1,20 @@
-export default function CardGrid() {
-  const items = Array.from({ length: 12 }, (_, i) => i + 1);
+import Filters from "./Filters";
+
+export default async function Page({ searchParams }) {
+  const  values = await searchParams;
+  const selected =  values?.filter?.split(",") || [];
 
   return (
-    <div className="p-6">
-      <div
-        className="grid gap-6 justify-center"
-        style={{
-          gridTemplateColumns: "repeat(auto-fit, minmax(20rem, 1fr))",
-        }}
-      >
-        {items.map((item) => (
-          <div
-            key={item}
-            className="w-80 h-56 cursor-pointer select-none bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 flex items-center justify-center text-lg font-semibold"
-          >
-            Card {item}
-          </div>
-        ))}
+    <div className="p-6 space-y-6">
+      <Filters selected={selected} />
+      <pre>
+        {JSON.stringify(values, null, 2)}
+      </pre>
+      <div className="mt-6">
+        <h2 className="text-lg font-semibold">Selected:</h2>
+        <pre className="bg-gray-100 p-3 rounded">
+          {JSON.stringify(selected, null, 2)}
+        </pre>
       </div>
     </div>
   );

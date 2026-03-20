@@ -34,7 +34,7 @@ export const qaNotes = mysqlTable("qa_notes", {
 
   // ISO date: YYYY-MM-DD
   date: varchar("date", { length: 10 }).notNull(),
-  date: varchar("topic", { length: 16 }).notNull(),
+  topic: varchar("topic", { length: 16 }).notNull(),
 
   createdAt: timestamp("created_at").defaultNow().notNull(),
 

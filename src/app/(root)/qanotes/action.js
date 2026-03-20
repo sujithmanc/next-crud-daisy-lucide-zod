@@ -8,8 +8,9 @@ export async function createNotes(prevState, formData) {
     try {
         const date = formData.get("date");
         const content = formData.get("content");
+        const topic = formData.get("topic");
 
-        if (!date || !content) {
+        if (!date || !content || !topic) {
             return {
                 success: false,
                 message: "Date and content are required",
@@ -30,6 +31,7 @@ export async function createNotes(prevState, formData) {
         const values = parsed.map((item) => ({
             que: item.que,
             ans: item.ans,
+            topic,
             date,
         }));
 

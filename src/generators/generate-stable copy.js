@@ -62,6 +62,11 @@ const utilJs = `export const formatDate = (date) => {
 `
 
 // ================================================================
+// util/constants.js
+// ================================================================
+const constantsJs = `export const HOME_PAGE = '${base_route}';`
+
+// ================================================================
 // schema.js
 // ================================================================
 function drizzleType(f) {
@@ -236,35 +241,9 @@ import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
 import { ${entityLower}Schema } from './validations'
 import { create${entity}, update${entity}, delete${entity} } from './service'
+import { HOME_PAGE } from './util/constants'
 
-export async function create${entity}Action(prevState, formData) {
-  const raw = {
-${fields.map(parseFormDataField).join('\n')}
-  }
-
-  const parsed = ${entityLower}Schema.safeParse(raw)
-  if (!parsed.success) {
-    return {
-      success: false,
-      message: 'Please fix the errors below',
-      errors: parsed.error.flatten().fieldErrors,
-      values: raw
-    }
-  }
-
-  const { ${fieldKeys.join(', ')} } = parsed.data
-
-  try {
-    await create${entity}({ ${fieldKeys.join(', ')} })
-  } catch {
-    return { success: false, message: 'Failed to create ${entity}. Please try again.', errors: {}, values: raw }
-  }
-
-  revalidatePath('/${base_route}')
-  redirect('/${base_route}')
-}
-
-export async function update${entity}Action(id, formData) {
+export async function createOrUpdate${entity}Action(id, formData) {
   const raw = formData
 
   const parsed = ${entityLower}Schema.safeParse(raw)
@@ -283,12 +262,16 @@ export async function update${entity}Action(id, formData) {
     } else {
       await create${entity}(parsed.data)
     }
-  } catch {
+  } catch (err) {
+    console.info("Error: ", JSON.stringify(err, null, 2))
+    if (err?.cause?.message) {
+      return { success: false, message: err?.cause?.message, errors: {}, values: raw }
+    }
     return { success: false, message: 'Failed to update ${entity}. Please try again.', errors: {}, values: raw }
   }
 
-  revalidatePath('/${base_route}')
-  redirect('/${base_route}')
+  revalidatePath(HOME_PAGE)
+  redirect(HOME_PAGE)
 }
 
 export async function delete${entity}Action(id) {
@@ -297,7 +280,7 @@ export async function delete${entity}Action(id) {
   } catch {
     return { success: false, message: 'Failed to delete ${entity}.' }
   }
-  revalidatePath('/${base_route}')
+  revalidatePath(HOME_PAGE)
 }
 `
 
@@ -395,6 +378,7 @@ function renderCell(f) {
 
 const tableJsx = `import Link from 'next/link'
 import ${entity}DeleteButton from './${entity}DeleteButton'
+import { HOME_PAGE } from '../util/constants'
 
 export default function ${entity}Table({ rows }) {
   return (
@@ -411,7 +395,7 @@ export default function ${entity}Table({ rows }) {
             <tr key={row.id}>
               ${viewFields.map(renderCell).join('\n              ')}
               <td className="flex gap-2">
-                <Link href={\`/${base_route}/\${row.id}\`} className="btn btn-xs btn-info">View</Link>
+                <Link href={\`/${HOME}/\${row.id}\`} className="btn btn-xs btn-info">View</Link>
                 <Link href={\`/${base_route}/\${row.id}/edit\`} className="btn btn-xs btn-warning">Edit</Link>
                 <${entity}DeleteButton id={row.id} />
               </td>
@@ -688,13 +672,13 @@ export default async function ${entity}ListPage() {
 // ================================================================
 // new/page.jsx  — passes updateAction (matches your pattern)
 // ================================================================
-const newPageJsx = `import { update${entity}Action } from '../actions'
+const newPageJsx = `import { createOrUpdate${entity}Action } from '../actions'
 import ${entity}Form from '../components/${entity}Form'
 
 export default function New${entity}Page() {
   return (
     <div className="p-6 flex justify-center">
-      <${entity}Form action={update${entity}Action} />
+      <${entity}Form action={createOrUpdate${entity}Action} />
     </div>
   )
 }
@@ -735,7 +719,7 @@ const recordSpread = hasDate
   ? `  const record = { ...raw, ${dateFields.map(k => `${k}: ${k}Formatted`).join(', ')} }`
   : `  const record = raw`
 
-const editPageJsx = `import { update${entity}Action } from '../../actions'
+const editPageJsx = `import { createOrUpdate${entity}Action } from '../../actions'
 import { get${entity}ById } from '../../service'
 import ${entity}Form from '../../components/${entity}Form'
 
@@ -746,7 +730,7 @@ ${hasDate ? '\n' + dateFormatEditLines + '\n' + recordSpread : '  const record =
 
   return (
     <div className="p-6 flex justify-center">
-      <${entity}Form action={update${entity}Action} initialData={record} ${entityLower}Id={id} cancelHref="/${base_route}" />
+      <${entity}Form action={createOrUpdate${entity}Action} initialData={record} ${entityLower}Id={id} cancelHref="/${base_route}" />
     </div>
   )
 }
@@ -763,6 +747,7 @@ const files = [
   [folderName,    'actions.js',                actionsJs],
   [folderName,    'layout.js',                 layoutJs],
   [utilDir,       'util.js',                   utilJs],
+  [utilDir,       'util.js',                   constantsJs],
   [componentsDir, 'Timer.js',                  timerJs],
   [componentsDir, `${entity}DeleteButton.jsx`, deleteButtonJsx],
   [componentsDir, `${entity}Table.jsx`,        tableJsx],

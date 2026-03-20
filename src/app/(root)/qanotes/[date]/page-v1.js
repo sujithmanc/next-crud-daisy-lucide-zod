@@ -3,8 +3,9 @@ import { qaNotes } from "@/drizzle/schema";
 import { eq } from "drizzle-orm";
 import db from "@/drizzle";
 
-export default async function DatePage({ params }) {
+export default async function DatePage({ params, searchParams }) {
     const { date } = await params;
+    const values = await searchParams;
 
     // Fetch notes for this date
     const notes = await db
@@ -16,6 +17,9 @@ export default async function DatePage({ params }) {
     return (
         <div className="max-w-2xl mx-auto p-4">
             {/* Header */}
+            <pre>
+                {JSON.stringify(values, null, 4)}
+            </pre>
             <div className="flex justify-between items-center mb-4">
                 <div>
                     <Link href="/qanotes" className="btn btn-ghost btn-sm">

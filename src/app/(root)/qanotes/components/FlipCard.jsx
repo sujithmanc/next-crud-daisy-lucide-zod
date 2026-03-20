@@ -33,7 +33,8 @@ export default function FlipCard({ question, answer }) {
                 <div
                     className={`${cardSize} ${randomSet.question}`}
                 >
-                    <span className="badge badge-primary mb-4">Question</span>
+                    {/* <span className="badge badge-primary mb-4">Question</span> */}
+                    <span className="mb-4">Question</span>
                     <p className="text-xl font-semibold text-center">{question}</p>
                     <p className="text-xs text-base-content/50 mt-6">Double-click to reveal answer</p>
                 </div>
@@ -43,7 +44,8 @@ export default function FlipCard({ question, answer }) {
                     className={`${cardSize} ${randomSet.answer}`}
                     style={{ transform: "rotateY(180deg)" }}
                 >
-                    <span className="badge badge-success mb-4">Answer</span>
+                    {/* <span className="badge badge-success mb-4">Answer</span> */}
+                    <span className="mb-4">Answer</span>
                     <p className="text-xl font-semibold text-center">{answer}</p>
                     <p className="text-xs text-base-content/50 mt-6">Double-click to go back</p>
                 </div>
