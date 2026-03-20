@@ -13,5 +13,5 @@ node <generator-path> <model-instruction-path>
 
 Example:
 ```
-node src\generators\generate-stable.js product.json
+node src\generators\generate-stable.js src\generators\topic.json
 ```

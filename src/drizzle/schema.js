@@ -1,46 +1,47 @@
 import { boolean, int, mysqlTable as table, text } from "drizzle-orm/mysql-core";
 import {
-    mysqlTable,
-    serial,
-    varchar,
-    date,
-    mysqlEnum,
-    json,
-    timestamp,
+  mysqlTable,
+  serial,
+  varchar,
+  date,
+  mysqlEnum,
+  json,
+  timestamp,
 } from "drizzle-orm/mysql-core";
 
 export const userRoles = ["guest", "user", "admin"];
 export const genderType = ["Male", "Female", "Other"];
 
 export const users = table("users", {
-    id: serial("id").primaryKey(),
-    name: varchar("name", { length: 100 }).notNull(),
-    username: varchar("username", { length: 50 }).notNull().unique(),
-    email: varchar("email", { length: 255 }).notNull().unique(),
-    dob: date("dob"),
-    gender: mysqlEnum("gender", genderType),
-    role: mysqlEnum("role", userRoles).default("guest"),
-    skills: json("skills").$type(),
-    createdAt: timestamp("created_at").defaultNow(),
-    updatedAt: timestamp("updated_at").defaultNow().onUpdateNow(),
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 100 }).notNull(),
+  username: varchar("username", { length: 50 }).notNull().unique(),
+  email: varchar("email", { length: 255 }).notNull().unique(),
+  dob: date("dob"),
+  gender: mysqlEnum("gender", genderType),
+  role: mysqlEnum("role", userRoles).default("guest"),
+  skills: json("skills").$type(),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow(),
 });
 
 // QA Notes table
 export const qaNotes = mysqlTable("qa_notes", {
-    id: serial("id").autoincrement().primaryKey(),
+  id: serial("id").autoincrement().primaryKey(),
 
-    que: text("que").notNull(),
-    ans: text("ans").notNull(),
+  que: text("que").notNull(),
+  ans: text("ans").notNull(),
 
-    // ISO date: YYYY-MM-DD
-    date: varchar("date", { length: 10 }).notNull(),
+  // ISO date: YYYY-MM-DD
+  date: varchar("date", { length: 10 }).notNull(),
+  date: varchar("topic", { length: 16 }).notNull(),
 
-    createdAt: timestamp("created_at").defaultNow().notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
 
-    updatedAt: timestamp("updated_at")
-        .defaultNow()
-        .onUpdateNow()
-        .notNull(),
+  updatedAt: timestamp("updated_at")
+    .defaultNow()
+    .onUpdateNow()
+    .notNull(),
 });
 
 export const employees = mysqlTable('employees', {
@@ -65,4 +66,9 @@ export const products = mysqlTable('products', {
   launchDate: date('launchDate'),
   tags: json('tags'),
   inStock: boolean('inStock').default(false),
+})
+
+export const topics = mysqlTable('topics', {
+  id: serial('id').primaryKey(),
+  name: varchar('name', { length: 16 }).unique(),
 })
