@@ -4,14 +4,16 @@ import { useState } from "react";
 import { motion } from "motion/react";
 import { bgColorSets } from "../util.js/colors";
 
-export default function FlipCard({ question, answer, theme = bgColorSets[0] }) {
+export default function FlipCard({ question, answer }) {
     const [flipped, setFlipped] = useState(false);
 
     function handleDoubleClick() {
         setFlipped((prev) => !prev);
     }
 
-    theme.question = `bg-gradient-to-br from-gray-800 to-black text-white`;
+    const randomSet = bgColorSets[Math.floor(Math.random() * bgColorSets.length)];
+    //const colorSet = bgColorSets[index % bgColorSets.length];
+    randomSet.question = `bg-gradient-to-br from-gray-800 to-black text-white`;
 
     const cardSize = `absolute inset-0 flex flex-col items-center justify-center rounded-2xl shadow-xl [backface-visibility:hidden] px-6`;
 
@@ -30,7 +32,7 @@ export default function FlipCard({ question, answer, theme = bgColorSets[0] }) {
             >
                 {/* Front Side - Question */}
                 <div
-                    className={`${cardSize} ${theme.question}`}
+                    className={`${cardSize} ${randomSet.question}`}
                 >
                     {/* <span className="badge badge-primary mb-4">Question</span> */}
                     <span className="mb-4">Question</span>
@@ -40,7 +42,7 @@ export default function FlipCard({ question, answer, theme = bgColorSets[0] }) {
 
                 {/* Back Side - Answer */}
                 <div
-                    className={`${cardSize} ${theme.answer}`}
+                    className={`${cardSize} ${randomSet.answer}`}
                     style={{ transform: "rotateY(180deg)" }}
                 >
                     {/* <span className="badge badge-success mb-4">Answer</span> */}
