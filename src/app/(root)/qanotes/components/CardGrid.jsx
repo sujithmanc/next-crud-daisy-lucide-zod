@@ -18,7 +18,8 @@ export default async function CardGrid({ notes }) {
       {notes.map((note) => (
         <div
           key={note.id}
-          className="w-80 h-56 cursor-pointer select-none rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 flex items-center justify-center text-lg font-semibold"
+          // className="w-80 h-56 cursor-pointer select-none rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 flex items-center justify-center text-lg font-semibold"
+          className="w-80 h-56 cursor-pointer select-none transition-all duration-300 flex items-center justify-center text-lg font-semibold"
         >
           <FlipCard question={note.que} answer={note.ans} theme={randomSet()} />
         </div>
