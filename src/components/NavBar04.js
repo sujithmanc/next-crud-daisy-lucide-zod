@@ -8,7 +8,7 @@ import Timer from "./Timer";
 import ThemeDropdown from "./ThemeDropdown";
 
 const NavBar04 = () => {
-  
+
 
   return (
     <div className="navbar bg-base-100 shadow-sm sticky top-0 z-50">
@@ -34,9 +34,9 @@ const NavBar04 = () => {
           <NavLinks />
         </ul>
       </div>
-<div className="navbar-end">
-      <Timer /> 
-      <ThemeDropdown />
+      <div className="navbar-end">
+        <Timer />
+        <ThemeDropdown />
       </div>
     </div>
   );
