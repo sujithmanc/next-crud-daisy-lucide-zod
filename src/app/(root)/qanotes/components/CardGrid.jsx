@@ -4,7 +4,7 @@ import { qaNotes } from "@/drizzle/schema";
 import { bgColorSets } from "../util.js/colors";
 
 export default async function CardGrid({ notes }) {
-
+  const shuffled = [...notes].sort(() => Math.random() - 0.5);
   const randomSet = () => bgColorSets[Math.floor(Math.random() * bgColorSets.length)];
   //const colorSet = bgColorSets[index % bgColorSets.length];
 
@@ -15,7 +15,7 @@ export default async function CardGrid({ notes }) {
         gridTemplateColumns: "repeat(auto-fit, minmax(20rem, 1fr))",
       }}
     >
-      {notes.map((note) => (
+      {shuffled.map((note) => (
         <div
           key={note.id}
           // className="w-80 h-56 cursor-pointer select-none rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 flex items-center justify-center text-lg font-semibold"
