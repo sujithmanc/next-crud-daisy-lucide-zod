@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 
 export default function Timer() {
   const [seconds, setSeconds] = useState(0)
+  const [isRunning, setIsRunning] = useState(false)
 
   const formatTime = (total) => {
     const mins = Math.floor(total / 60)
@@ -12,13 +13,19 @@ export default function Timer() {
   }
 
   useEffect(() => {
-    let interval = setInterval(() => setSeconds(p => p + 1), 1000)
+    let interval
+    if (isRunning) interval = setInterval(() => setSeconds(p => p + 1), 1000)
     return () => clearInterval(interval)
-  }, [])
+  }, [isRunning])
 
   return (
-    <div className="btn btn-ghost text-xl">
-      <pre>{formatTime(seconds)}</pre>
-    </div>
+
+    <button onClick={() => setIsRunning(p => !p)}
+      className="btn btn-ghost text-xl">
+      <pre>
+        {isRunning ? formatTime(seconds) : 'Start'}
+      </pre>
+    </button>
+
   )
 }

@@ -5,29 +5,10 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import NavLinks from "./navs/NavLinks";
 import Timer from "./Timer";
+import ThemeDropdown from "./ThemeDropdown";
 
 const NavBar04 = () => {
-  const [theme, setTheme] = useState("light");
-
-  const daisyUIThemes = [
-    "light", "dark", "cupcake", "bumblebee", "emerald", "corporate",
-    "synthwave", "retro", "cyberpunk", "valentine", "halloween", "garden",
-    "forest", "aqua", "lofi", "pastel", "fantasy", "wireframe", "black",
-    "luxury", "dracula", "cmyk", "autumn", "business", "acid", "lemonade",
-    "night", "coffee", "winter", "dim", "nord", "sunset"
-  ];
-
-  useEffect(() => {
-    document.querySelector("html").setAttribute("data-theme", theme);
-    localStorage.setItem("theme", theme);
-  }, [theme]);
-
-  useEffect(() => {
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme) {
-      setTheme(savedTheme);
-    }
-  }, []);
+  
 
   return (
     <div className="navbar bg-base-100 shadow-sm sticky top-0 z-50">
@@ -53,37 +34,10 @@ const NavBar04 = () => {
           <NavLinks />
         </ul>
       </div>
-
-      {/* Navbar End - THEME DROPDOWN */}
-      <div className="navbar-end">
-        <div className="dropdown dropdown-end">
-          {/* THE TRIGGER BUTTON */}
-          <div tabIndex={0} role="button" className="btn btn-ghost m-1">
-            Theme
-            <svg width="12px" height="12px" className="h-2 w-2 fill-current opacity-60 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 2048"><path d="M1799 349l242 241-1017 1017L7 590l242-241 775 775 775-775z"></path></svg>
-          </div>
-
-          {/* THE DROPDOWN LIST */}
-          <ul tabIndex={0} className="dropdown-content z-[1] p-2 shadow-2xl bg-base-300 rounded-box w-52 h-96 overflow-y-auto">
-            {daisyUIThemes.map((themeName) => (
-              <li key={themeName}>
-                <input
-                  type="radio"
-                  name="theme-dropdown"
-                  className="theme-controller btn btn-sm btn-block btn-ghost justify-start"
-                  aria-label={themeName.charAt(0).toUpperCase() + themeName.slice(1)}
-                  value={themeName}
-                  onChange={() => setTheme(themeName)}
-                  checked={theme === themeName}
-                />
-              </li>
-            ))}
-          </ul>
-          <Timer />
-          <a className="btn btn-ghost text-xl">daisyUI</a>
-        </div>
+<div className="navbar-end">
+      <Timer /> 
+      <ThemeDropdown />
       </div>
-
     </div>
   );
 };

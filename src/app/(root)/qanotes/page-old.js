@@ -5,6 +5,7 @@ import { sql } from "drizzle-orm";
 import db from "@/drizzle";
 
 export default async function QaNotesPage() {
+    // Fetch distinct dates with count
     const data = await db
         .select({
             date: qaNotes.date,
@@ -15,18 +16,17 @@ export default async function QaNotesPage() {
         .orderBy(sql`${qaNotes.date} desc`);
 
     return (
-        <div className="max-w-4xl mx-auto p-4">
+        <div className="max-w-2xl mx-auto p-4">
             {/* Header */}
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex justify-between items-center mb-4">
                 <h1 className="text-2xl font-bold">QA Notes</h1>
-                <div className="flex gap-2">
-                    <Link href="/qanotes/topics" className="btn btn-secondary">
-                        + Topic
-                    </Link>
-                    <Link href="/qanotes/create" className="btn btn-primary">
-                        + New
-                    </Link>
-                </div>
+
+                <Link href="/qanotes/topics" className="btn btn-secoundary">
+                    + Topic
+                </Link>
+                <Link href="/qanotes/create" className="btn btn-primary">
+                    + New
+                </Link>
             </div>
 
             {/* Empty State */}
@@ -36,17 +36,18 @@ export default async function QaNotesPage() {
                 </div>
             )}
 
-            {/* Date Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {/* Date List */}
+            <div className="space-y-3">
                 {data.map((item) => (
                     <Link
                         key={item.date}
                         href={`/qanotes/${item.date}`}
                         className="block"
                     >
-                        <div className="card bg-base-100 shadow hover:shadow-md transition h-full">
+                        <div className="card bg-base-100 shadow hover:shadow-md transition">
                             <div className="card-body flex flex-row justify-between items-center">
                                 <span className="font-medium">{item.date}</span>
+
                                 <span className="badge badge-primary">
                                     {item.count} notes
                                 </span>
