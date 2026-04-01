@@ -1,4 +1,4 @@
-import { Home, User, Clapperboard, Users, Bookmark, Joystick, Notebook } from 'lucide-react';
+import { Home, User, Clapperboard, Users, Bookmark, Joystick, Notebook, BotIcon } from 'lucide-react';
 
 export const ROUTES = [
     {
@@ -42,5 +42,11 @@ export const ROUTES = [
         label: 'QA Notes',
         Icon: Notebook,
         description: 'Learning throught Questions and Answers'
+    },
+    {
+        path: '/chatbot',
+        label: 'Chatbot',
+        Icon: BotIcon,
+        description: 'Interactive chatbot for user assistance'
     }
 ];

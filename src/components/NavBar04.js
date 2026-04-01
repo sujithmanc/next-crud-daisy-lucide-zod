@@ -25,7 +25,7 @@ const NavBar04 = () => {
             <NavLinks />
           </ul>
         </div>
-        <a className="btn btn-ghost text-xl">daisyUI</a>
+        <a className="btn btn-ghost text-xl">SujiMX</a>
       </div>
 
       {/* Navbar Center */}
