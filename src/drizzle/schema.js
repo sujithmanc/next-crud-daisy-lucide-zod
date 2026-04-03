@@ -1,4 +1,5 @@
-import { boolean, int, mysqlTable as table, text } from "drizzle-orm/mysql-core";
+import { relations } from "drizzle-orm";
+import { bigint, boolean, int, mysqlTable as table, text } from "drizzle-orm/mysql-core";
 import {
   mysqlTable,
   serial,
@@ -71,4 +72,23 @@ export const products = mysqlTable('products', {
 export const topics = mysqlTable('topics', {
   id: serial('id').primaryKey(),
   name: varchar('name', { length: 16 }).unique(),
-})
+});
+
+export const subtopics = mysqlTable('subtopics', {
+  id: serial('id').primaryKey(),
+  name: varchar('name', { length: 32 }).notNull(),
+  topicId: bigint('topic_id', { mode: 'number', unsigned: true })
+    .notNull()
+    .references(() => topics.id),
+});
+
+export const topicsRelations = relations(topics, ({ many }) => ({
+  subtopics: many(subtopics),
+}));
+
+export const subtopicsRelations = relations(subtopics, ({ one }) => ({
+  topic: one(topics, {
+    fields: [subtopics.topicId],
+    references: [topics.id],
+  }),
+}));
