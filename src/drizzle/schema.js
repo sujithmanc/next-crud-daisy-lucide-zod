@@ -76,7 +76,7 @@ export const topics = mysqlTable('topics', {
 
 export const subtopics = mysqlTable('subtopics', {
   id: serial('id').primaryKey(),
-  name: varchar('name', { length: 32 }).notNull(),
+  name: varchar('name', { length: 32 }).notNull().unique(),
   topicId: bigint('topic_id', { mode: 'number', unsigned: true })
     .notNull()
     .references(() => topics.id),

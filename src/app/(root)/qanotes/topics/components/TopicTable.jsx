@@ -20,6 +20,7 @@ export default function TopicTable({ rows }) {
                 <Link href={`${HOME_PAGE}/${row.id}`} className="btn btn-xs btn-info">View</Link>
                 <Link href={`${HOME_PAGE}/${row.id}/edit`} className="btn btn-xs btn-warning">Edit</Link>
                 <TopicDeleteButton id={row.id} />
+                <Link href={`/qanotes/subtopics`} className="btn btn-xs btn-success">Add Subtopics</Link>
               </td>
             </tr>
           ))}
