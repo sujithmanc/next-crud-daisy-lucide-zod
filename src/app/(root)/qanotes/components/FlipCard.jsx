@@ -29,12 +29,17 @@ export default function FlipCard({ question, answer, theme = bgColorSets[0] }) {
                 style={{ transformStyle: "preserve-3d" }}
             >
                 {/* Front Side - Question */}
-                <div
-                    className={`${cardSize} ${theme.question}`}
-                >
-                    {/* <span className="badge badge-primary mb-4">Question</span> */}
+                <div className={`${cardSize} ${theme.question}`}>
                     <span className="mb-4">Question</span>
-                    <p className="text-xl font-semibold text-center">{question}</p>
+                    {question.startsWith("/uploads") ? (
+                        <img
+                            src={question}
+                            className="max-h-48 object-contain rounded-box"
+                            alt="Question"
+                        />
+                    ) : (
+                        <p className="text-xl font-semibold text-center">{question}</p>
+                    )}
                     <p className="text-xs text-base-content/50 mt-6">Double-click to reveal answer</p>
                 </div>
 
