@@ -1,7 +1,8 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { createNotes } from "../action";
+import { getSubtopicsByTopicId } from "../action";
 
 const initialState = {
     success: false,
@@ -9,12 +10,28 @@ const initialState = {
 };
 
 export default function CreateNotesForm({ topics }) {
-    const [state, formAction, isPending] = useActionState(
-        createNotes,
-        initialState
-    );
-
+    const [state, formAction, isPending] = useActionState(createNotes, initialState);
+    const [selectedTopicName, setSelectedTopicName] = useState("");
+    const [subtopics, setSubtopics] = useState([]);
+    const [loadingSubtopics, setLoadingSubtopics] = useState(false);
     const today = new Date().toISOString().split("T")[0];
+
+    const handleTopicChange = async (e) => {
+        const topicName = e.target.value;
+        setSelectedTopicName(topicName);
+
+        const topic = topics.find(t => t.name === topicName);
+        const topicId = topic?.id || "";
+        setSelectedTopicName(topic?.name || "");
+        setSubtopics([]);
+
+        if (!topicId) return;
+
+        setLoadingSubtopics(true);
+        const data = await getSubtopicsByTopicId(parseInt(topicId));
+        setSubtopics(data);
+        setLoadingSubtopics(false);
+    };
 
     return (
         <div className="max-w-2xl mx-auto p-4">
@@ -35,8 +52,9 @@ export default function CreateNotesForm({ topics }) {
                         required
                     />
                 </div>
+
+                {/* Topic + Subtopic */}
                 <div className="grid grid-cols-2 gap-4">
-                    {/* Topic Dropdown */}
                     <div>
                         <label className="label">
                             <span className="label-text">Topic</span>
@@ -45,13 +63,11 @@ export default function CreateNotesForm({ topics }) {
                             name="topic"
                             className="select select-bordered w-full"
                             required
-                            defaultValue=""
+                            value={selectedTopicName}
+                            onChange={(e) => handleTopicChange(e)}
                         >
-                            <option value="" disabled>
-                                Select a topic
-                            </option>
-
-                            {topics?.map((topic) => (
+                            <option value="" disabled>Select a topic</option>
+                            {topics?.map(topic => (
                                 <option key={topic.id} value={topic.name}>
                                     {topic.name}
                                 </option>
@@ -59,29 +75,35 @@ export default function CreateNotesForm({ topics }) {
                         </select>
                     </div>
 
-                    {/* Subtopic Dropdown */}
                     <div>
                         <label className="label">
                             <span className="label-text">Subtopic</span>
                         </label>
                         <select
-                            name="topic"
+                            name="subtopic"
+                            key={selectedTopicName}
                             className="select select-bordered w-full"
-                            required
+                            disabled={!selectedTopicName || loadingSubtopics || subtopics.length === 0}
                             defaultValue=""
                         >
-                            <option value="" disabled>
-                                Select a topic
+                            <option value="">
+                                {!selectedTopicName
+                                    ? "Select a topic first"
+                                    : loadingSubtopics
+                                        ? "Loading..."
+                                        : subtopics.length === 0
+                                            ? "No subtopics available"
+                                            : "Select a subtopic (optional)"}
                             </option>
-
-                            {topics?.map((topic) => (
-                                <option key={topic.id} value={topic.name}>
-                                    {topic.name}
+                            {subtopics.map(sub => (
+                                <option key={sub.id} value={sub.name}>
+                                    {sub.name}
                                 </option>
                             ))}
                         </select>
                     </div>
                 </div>
+
                 {/* Textarea */}
                 <div>
                     <label className="label">
@@ -105,7 +127,6 @@ A: ...`}
                     <a href="/qanotes" className="btn btn-ghost">
                         Cancel
                     </a>
-
                     <button
                         type="submit"
                         className={`btn btn-primary ${isPending ? "loading" : ""}`}
@@ -116,10 +137,7 @@ A: ...`}
 
                 {/* Feedback */}
                 {state?.message && (
-                    <div
-                        className={`alert ${state.success ? "alert-success" : "alert-error"
-                            }`}
-                    >
+                    <div className={`alert ${state.success ? "alert-success" : "alert-error"}`}>
                         {state.message}
                     </div>
                 )}
