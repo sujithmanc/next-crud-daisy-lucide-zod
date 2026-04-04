@@ -35,30 +35,53 @@ export default function CreateNotesForm({ topics }) {
                         required
                     />
                 </div>
-
-                {/* Topic Dropdown */}
-                <div>
-                    <label className="label">
-                        <span className="label-text">Topic</span>
-                    </label>
-                    <select
-                        name="topic"
-                        className="select select-bordered w-full"
-                        required
-                        defaultValue=""
-                    >
-                        <option value="" disabled>
-                            Select a topic
-                        </option>
-
-                        {topics?.map((topic) => (
-                            <option key={topic.id} value={topic.name}>
-                                {topic.name}
+                <div className="grid grid-cols-2 gap-4">
+                    {/* Topic Dropdown */}
+                    <div>
+                        <label className="label">
+                            <span className="label-text">Topic</span>
+                        </label>
+                        <select
+                            name="topic"
+                            className="select select-bordered w-full"
+                            required
+                            defaultValue=""
+                        >
+                            <option value="" disabled>
+                                Select a topic
                             </option>
-                        ))}
-                    </select>
-                </div>
 
+                            {topics?.map((topic) => (
+                                <option key={topic.id} value={topic.name}>
+                                    {topic.name}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    {/* Subtopic Dropdown */}
+                    <div>
+                        <label className="label">
+                            <span className="label-text">Subtopic</span>
+                        </label>
+                        <select
+                            name="topic"
+                            className="select select-bordered w-full"
+                            required
+                            defaultValue=""
+                        >
+                            <option value="" disabled>
+                                Select a topic
+                            </option>
+
+                            {topics?.map((topic) => (
+                                <option key={topic.id} value={topic.name}>
+                                    {topic.name}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                </div>
                 {/* Textarea */}
                 <div>
                     <label className="label">
