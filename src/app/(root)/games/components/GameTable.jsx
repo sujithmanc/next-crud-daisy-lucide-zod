@@ -37,7 +37,7 @@ export default function GameTable({ games }) {
                     href={`/games/${game.id}`}
                     className="btn btn-sm btn-info"
                   >
-                    View
+                    {`View ${game.id}`}
                   </Link>
                   <Link
                     href={`/games/${game.id}/edit`}

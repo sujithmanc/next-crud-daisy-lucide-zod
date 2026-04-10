@@ -2,14 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 
-
-
-
-
-export default function Filters({options,  selected }) {
-
-
-
+export default function Filters({ options, selected }) {
 
   const router = useRouter();
   const searchParams = useSearchParams();
