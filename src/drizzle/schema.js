@@ -27,23 +27,23 @@ export const users = table("users", {
 });
 
 // QA Notes table
-export const qaNotes = mysqlTable("qa_notes", {
-  id: serial("id").autoincrement().primaryKey(),
+// export const qaNotes = mysqlTable("qa_notes", {
+//   id: serial("id").autoincrement().primaryKey(),
 
-  que: text("que").notNull(),
-  ans: text("ans").notNull(),
+//   que: text("que").notNull(),
+//   ans: text("ans").notNull(),
 
-  // ISO date: YYYY-MM-DD
-  date: varchar("date", { length: 10 }).notNull(),
-  topic: varchar("topic", { length: 16 }).notNull(),
-  subtopic: varchar("subtopic", { length: 32 }),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
+//   // ISO date: YYYY-MM-DD
+//   date: varchar("date", { length: 10 }).notNull(),
+//   topic: varchar("topic", { length: 16 }).notNull(),
+//   subtopic: varchar("subtopic", { length: 32 }),
+//   createdAt: timestamp("created_at").defaultNow().notNull(),
 
-  updatedAt: timestamp("updated_at")
-    .defaultNow()
-    .onUpdateNow()
-    .notNull(),
-});
+//   updatedAt: timestamp("updated_at")
+//     .defaultNow()
+//     .onUpdateNow()
+//     .notNull(),
+// });
 
 export const employees = mysqlTable('employees', {
   id: serial('id').primaryKey(),
@@ -69,26 +69,28 @@ export const products = mysqlTable('products', {
   inStock: boolean('inStock').default(false),
 })
 
-export const topics = mysqlTable('topics', {
-  id: serial('id').primaryKey(),
-  name: varchar('name', { length: 16 }).unique(),
-});
+export * from "./notesSchema";
 
-export const subtopics = mysqlTable('subtopics', {
-  id: serial('id').primaryKey(),
-  name: varchar('name', { length: 32 }).notNull().unique(),
-  topicId: bigint('topic_id', { mode: 'number', unsigned: true })
-    .notNull()
-    .references(() => topics.id),
-});
+// export const topics = mysqlTable('topics', {
+//   id: serial('id').primaryKey(),
+//   name: varchar('name', { length: 16 }).unique(),
+// });
 
-export const topicsRelations = relations(topics, ({ many }) => ({
-  subtopics: many(subtopics),
-}));
+// export const subtopics = mysqlTable('subtopics', {
+//   id: serial('id').primaryKey(),
+//   name: varchar('name', { length: 32 }).notNull().unique(),
+//   topicId: bigint('topic_id', { mode: 'number', unsigned: true })
+//     .notNull()
+//     .references(() => topics.id),
+// });
 
-export const subtopicsRelations = relations(subtopics, ({ one }) => ({
-  topic: one(topics, {
-    fields: [subtopics.topicId],
-    references: [topics.id],
-  }),
-}));
+// export const topicsRelations = relations(topics, ({ many }) => ({
+//   subtopics: many(subtopics),
+// }));
+
+// export const subtopicsRelations = relations(subtopics, ({ one }) => ({
+//   topic: one(topics, {
+//     fields: [subtopics.topicId],
+//     references: [topics.id],
+//   }),
+// }));
