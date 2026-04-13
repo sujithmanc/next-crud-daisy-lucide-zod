@@ -1,38 +1,33 @@
-// components/NotesList.js
 import { notesView } from "@/drizzle/schema";
-import { and, eq, inArray } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import db from "@/drizzle";
+import { getFormattedDate } from "./util";
+import { getSubtopicMetrics, getTopicMetrics } from "./noteService";
+import Metrics from "./Metrics";
 
-const getFormattedDate = (date) => {
-    return date.toLocaleDateString("en-GB", {
-        month: "short",
-        day: "2-digit"
-    }).replace(/ /g, "-")
-}
+export default async function NotesList({ date, topic, subtopic }) {
+    const conditions = [];
 
-export default async function NotesList({ date, selected = [] }) {
-    const conditions = [eq(notesView.noteDate, date)];
-
-    if (selected.length) {
-        conditions.push(inArray(notesView.topicName, selected));
-    }
+    if (date) conditions.push(eq(notesView.noteDate, date));
+    if (topic) conditions.push(eq(notesView.topicName, topic));
+    if (subtopic) conditions.push(eq(notesView.subtopicName, subtopic));
 
     const notes = await db
         .select()
         .from(notesView)
-        .where(and(...conditions))
+        .where(conditions.length ? and(...conditions) : undefined)
         .orderBy(notesView.noteId);
 
     if (notes.length === 0) {
-        return (
-            <div className="text-center text-gray-500 mt-10">
-                No notes found.
-            </div>
-        );
+        return <div className="text-center text-gray-500 mt-10">No notes found.</div>;
     }
+
+    
 
     return (
         <div className="overflow-x-auto">
+            <h1>Notes ({notes.length})</h1>
+            <Metrics date={date} topic={topic} subtopic={subtopic} />
             <table className="table table-zebra w-full text-sm">
                 <thead>
                     <tr>
