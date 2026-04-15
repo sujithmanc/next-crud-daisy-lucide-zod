@@ -17,7 +17,7 @@ export default async function CardGrid({ notes }) {
     >
       {shuffled.map((note) => (
         <div
-          key={note.id}
+          key={note.noteId}
           // className="w-80 h-56 cursor-pointer select-none rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 flex items-center justify-center text-lg font-semibold"
           className="w-80 h-56 cursor-pointer select-none transition-all duration-300 flex items-center justify-center text-lg font-semibold"
         >

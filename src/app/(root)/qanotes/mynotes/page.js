@@ -27,7 +27,7 @@ export default async function MyNotesPage({ searchParams }) {
         <div className="flex flex-col h-full">
           {/* Sidebar Header */}
           <div className="px-6 py-8">
-            <div className="flex items-center justify-between mb-10">
+            {/* <div className="flex items-center justify-between mb-10">
               <Link 
                 href="/quotes" 
                 className="group flex items-center justify-center w-9 h-9 rounded-full border  hover:shadow-sm transition-all duration-200"
@@ -35,7 +35,7 @@ export default async function MyNotesPage({ searchParams }) {
                 <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
               </Link>
               <h2 className="text-[11px] font-black text-gray-400 uppercase tracking-[0.2em]">Filters</h2>
-            </div>
+            </div> */}
 
             <FilterBar
               date={date}
@@ -51,20 +51,21 @@ export default async function MyNotesPage({ searchParams }) {
 
       {/* ── Main Content ────────────────────────────────────── */}
       <main className="flex-grow">
-        <div className="mx-auto px-6 py-10 md:px-12 md:py-16">
+        <div className="mx-auto px-6 py-10 md:px-12">
           
           {/* Header Section */}
           <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
             <div className="space-y-2">
-              <div className="flex items-center gap-3">
+              {/* <div className="flex items-center gap-3">
                 <div className="w-1.5 h-8  rounded-full" />
                 <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight">
                   My Notes
                 </h1>
-              </div>
-              <p className="text-gray-500 font-medium ml-4">
+              </div> */}
+              <p className="text-gray-500 font-medium">
                 Organizing {notes.length} thoughts and inspirations.
               </p>
+              
             </div>
             
             <Link 
@@ -78,11 +79,8 @@ export default async function MyNotesPage({ searchParams }) {
 
           {/* List Container */}
           <section className="relative group">
-            <div className="absolute -inset-1 bg-gradient-to-r from-gray-100 to-gray-50 rounded-[2rem] blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
-            <div className="relative bg-white rounded-[1.5rem] border border-gray-100/80 shadow-[0_8px_30px_rgb(0,0,0,0.04)] backdrop-blur-sm p-2 md:p-8">
               {/* <NotesList notes={notes} /> */}
               <CardGrid notes={notes} />
-            </div>  
           </section>
 
         </div>

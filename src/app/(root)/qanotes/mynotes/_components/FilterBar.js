@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import FilterDate from "./FilterDate";
 import FilterTopics from "./FilterTopics";
+import { UpdateResultsButton } from "./UpdateResultsButton";
 
 export default function FilterBar({
   date = null,
@@ -110,14 +111,13 @@ export default function FilterBar({
 
   // ── Render ──────────────────────────────────────────────────────────────────
   return (
-    <div className="flex flex-col h-full space-y-8">
-      {/* Action Header */}
-      <div className="flex flex-col gap-2 p-1">
+    <div className="flex flex-col h-full">
+      {/* Sticky Action Header */}
+      <div className="sticky top-0 z-20 bg-base-100/80 backdrop-blur-md pt-1 pb-4 space-y-2 border-b border-base-content/5">
         <button
           onClick={apply}
-          className="group relative w-full py-3 bg-gray-900 overflow-hidden text-white rounded-2xl font-bold text-[13px] transition-all duration-300 shadow-xl shadow-blue-900/10 hover:shadow-blue-500/20 active:scale-[0.98]"
+          className="btn btn-neutral btn-block rounded-2xl font-bold text-[13px] shadow-lg shadow-neutral/10 hover:btn-primary border-none transition-all duration-300 active:scale-[0.98]"
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           <span className="relative flex items-center justify-center gap-2">
             Apply Filters
           </span>
@@ -125,16 +125,14 @@ export default function FilterBar({
 
         <button
           onClick={clear}
-          className="w-full py-2 text-gray-400 hover:text-gray-600 rounded-xl text-[11px] font-bold uppercase tracking-wider transition-colors"
+          className="btn btn-ghost btn-xs btn-block text-base-content/50 hover:text-base-content font-bold uppercase tracking-wider transition-colors"
         >
           Reset to Default
         </button>
       </div>
 
-      <div className="h-px bg-gray-100 w-full" />
-
       {/* Filter Sections */}
-      <div className="space-y-12">
+      <div className="flex-grow space-y-12 py-8">
         <FilterDate
           dateMode={dateMode}
           dateVal={dateVal}
@@ -154,14 +152,9 @@ export default function FilterBar({
         />
       </div>
 
-      {/* Sticky Footer Action */}
-      <div className="sticky bottom-0 mt-auto pt-10 pb-4 bg-gradient-to-t from-white via-white/90 to-transparent">
-        <button
-          onClick={apply}
-          className="w-full py-3 bg-white border-2 border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white rounded-2xl font-bold text-[13px] transition-all duration-200 shadow-sm"
-        >
-          Update Results
-        </button>
+      {/* Sticky Footer Action - logic preserved */}
+      <div className="sticky bottom-0 bg-base-100 pt-4">
+        <UpdateResultsButton onClick={apply} />
       </div>
     </div>
   );
