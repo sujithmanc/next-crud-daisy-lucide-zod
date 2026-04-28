@@ -1,0 +1,20 @@
+{
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1777392042456,
+      "tag": "0000_elite_war_machine",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1777392115170,
+      "tag": "0001_aromatic_blue_marvel",
+      "breakpoints": true
+    }
+  ]
+}
