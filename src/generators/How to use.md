@@ -15,3 +15,6 @@ Example:
 ```
 node src\generators\generate-stable.js src\generators\topic.json
 ```
+
+```
+node generate-stable.js student3.json

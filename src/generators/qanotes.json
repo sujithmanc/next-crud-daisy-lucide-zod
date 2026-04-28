@@ -1,0 +1,13 @@
+{
+  "project": "QA Notes",
+  "desc": "Track QA notes and issues",
+  "base_route": "qa-notes",
+  "schema_name": "qa_notes",
+  "fields": [
+    { "field": "que",       "type": "textarea",     "minSize": 10, "maxSize": 100, "require": true },
+    { "field": "ans", "type": "textarea", "minSize": 6, "maxSize": 100, "require": true },
+    { "field": "topicId",      "type": "dropdown", "options": ["Open", "In Progress", "Closed"], "require": true },
+    { "field": "subtopicId",    "type": "dropdown", "options": ["Low", "Medium", "High"], "require": true },
+    { "field": "noteDate",       "type": "date", "require": true }
+  ]
+}
