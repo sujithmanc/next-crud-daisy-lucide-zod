@@ -4,28 +4,13 @@ import { eq, sql } from "drizzle-orm";
 import Link from "next/link";
 import { Home, FolderOpen, Plus, Search, ChevronRight } from "lucide-react";
 import NodeRow from "./NodeRow";
+import PromptBreadcrumbs from "./PromptBreadcrumbs";
 
 export default async function BrowsePrompts({ searchParams }) {
     const params = await searchParams;
     const currentFolderId = params.folderId ? parseInt(params.folderId) : 1;
 
-    // 1. Fetch Breadcrumbs using Recursive CTE
-    const result = await db.execute(sql`
-  WITH RECURSIVE path_cte AS (
-    SELECT id, name, parent_id
-    FROM nodes
-    WHERE id = ${currentFolderId}
-    UNION ALL
-    SELECT n.id, n.name, n.parent_id
-    FROM nodes n
-    INNER JOIN path_cte p ON p.parent_id = n.id
-  )
-  SELECT id, name FROM path_cte
-`);
 
-    // Handle different driver response structures
-    const rows = Array.isArray(result) ? result : (result.rows || []);
-    const breadcrumbPath = [...rows].reverse();
 
     // 2. Fetch Child Nodes
     const childNodes = await db.select()
@@ -50,33 +35,8 @@ export default async function BrowsePrompts({ searchParams }) {
                         </div>
                         <h1 className="text-3xl font-black tracking-tight">Browse</h1>
                     </div>
-
-                    {/* Breadcrumbs UI */}
-                    <nav className="text-sm breadcrumbs bg-base-200/50 px-4 py-2 rounded-full border border-base-300 inline-block">
-                        <ul className="flex items-center">
-                            <li>
-                                <Link href="/promptbox/browse" className="flex items-center gap-2 hover:text-primary transition-colors">
-                                    <Home size={14} />
-                                    <span className="hidden sm:inline">Root</span>
-                                </Link>
-                            </li>
-                            {breadcrumbPath.map((crumb, idx) => {
-                                if (crumb.id === 1 && idx === 0) return null; // Avoid double Root
-                                return (
-                                    <li key={crumb.id} className="flex items-center gap-2">
-                                        <ChevronRight size={12} className="opacity-30" />
-                                        <Link
-                                            href={`/promptbox/browse?folderId=${crumb.id}`}
-                                            className={`hover:text-primary transition-colors ${crumb.id === currentFolderId ? "font-bold text-base-content" : ""
-                                                }`}
-                                        >
-                                            {crumb.name}
-                                        </Link>
-                                    </li>
-                                );
-                            })}
-                        </ul>
-                    </nav>
+                    <PromptBreadcrumbs />
+                    
                 </div>
 
                 <div className="flex gap-2">
