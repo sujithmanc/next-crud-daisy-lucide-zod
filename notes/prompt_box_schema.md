@@ -1,5 +1,5 @@
 -- 1. Create the Users Table
-CREATE TABLE users (
+CREATE TABLE prompt_users (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(255) NOT NULL UNIQUE,
     email VARCHAR(255) NOT NULL UNIQUE,
@@ -28,7 +28,7 @@ CREATE TABLE nodes (
         
     CONSTRAINT fk_node_user 
         FOREIGN KEY (user_id) 
-        REFERENCES users(id) 
+        REFERENCES prompt_users(id) 
         ON DELETE CASCADE,
 
     -- Indexes for performance and data integrity
