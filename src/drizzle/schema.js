@@ -14,9 +14,6 @@ import {
 export const userRoles = ["guest", "user", "admin"];
 export const genderType = ["Male", "Female", "Other"];
 
-// 1. Re-export EVERYTHING from your other schema file(s)
-// This must point to the correct relative path of the file
-export * from "./promptbox-schema.js";
 
 export const users = table("users", {
   id: serial("id").primaryKey(),
@@ -97,3 +94,8 @@ export const subtopicsRelations = relations(subtopics, ({ one }) => ({
     references: [topics.id],
   }),
 }));
+
+
+// 1. Re-export EVERYTHING from your other schema file(s)
+// This must point to the correct relative path of the file
+export * from "./promptbox-schema.js";

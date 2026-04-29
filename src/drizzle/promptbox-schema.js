@@ -1,4 +1,4 @@
-import { relations } from "drizzle-orm";
+import { eq, relations, sql } from "drizzle-orm";
 import {
   mysqlTable,
   bigint,
@@ -10,12 +10,13 @@ import {
   unique,
   index,
   primaryKey,
+  mysqlView,
 } from "drizzle-orm/mysql-core";
 
 // -----------------------------------------------------------------------------
 // 1. Users Table
 // -----------------------------------------------------------------------------
-export const users = mysqlTable("users", {
+export const promptUsers = mysqlTable("prompt_users", {
   // Using mode: "number" so Drizzle returns standard JS numbers instead of BigInts
   id: bigint("id", { mode: "number" }).primaryKey().autoincrement(),
   username: varchar("username", { length: 255 }).notNull().unique(),
@@ -24,7 +25,7 @@ export const users = mysqlTable("users", {
   updatedAt: timestamp("updated_at").defaultNow().onUpdateNow(),
 });
 
-export const usersRelations = relations(users, ({ many }) => ({
+export const promptUsersRelations = relations(promptUsers, ({ many }) => ({
   nodes: many(nodes),
 }));
 
@@ -35,19 +36,19 @@ export const nodes = mysqlTable(
   "nodes",
   {
     id: bigint("id", { mode: "number" }).primaryKey().autoincrement(),
-    
+
     // In plain JS, we can just use an arrow function without type casting
     parentId: bigint("parent_id", { mode: "number" }).references(
       () => nodes.id,
       { onDelete: "cascade" }
     ),
-    
+
     userId: bigint("user_id", { mode: "number" })
       .notNull()
-      .references(() => users.id, { onDelete: "cascade" }),
+      .references(() => promptUsers.id, { onDelete: "cascade" }),
     name: varchar("name", { length: 255 }).notNull(),
     type: mysqlEnum("type", ["folder", "document"]).notNull(),
-    
+
     deletedAt: timestamp("deleted_at"),
     createdAt: timestamp("created_at").defaultNow(),
     updatedAt: timestamp("updated_at").defaultNow().onUpdateNow(),
@@ -61,9 +62,9 @@ export const nodes = mysqlTable(
 );
 
 export const nodesRelations = relations(nodes, ({ one, many }) => ({
-  user: one(users, {
+  user: one(promptUsers, {
     fields: [nodes.userId],
-    references: [users.id],
+    references: [promptUsers.id],
   }),
   // Self-referencing relation for Parent -> Children navigation
   parent: one(nodes, {
@@ -142,3 +143,40 @@ export const documentTagsRelations = relations(documentTags, ({ one }) => ({
     references: [tags.id],
   }),
 }));
+
+
+export const documentsWithTagsView = mysqlView("documents_with_tags_view").as((qb) =>
+  qb.select({
+    noteId: sql`${nodes.id}`.as("node_id"),
+    parentId: sql`${nodes.parentId}`.as("parent_id"),
+    userId: sql`${nodes.userId}`.as("user_id"),
+    nodeName: sql`${nodes.name}`.as("node_name"),
+    
+    tagId: sql`${tags.id}`.as("tag_id"),
+    tagName: sql`${tags.name}`.as("tag_name"),
+    
+    content: sql`${documentContents.content}`.as("content"),
+  })
+    .from(nodes)
+    .innerJoin(documentTags, eq(nodes.id, documentTags.nodeId))
+    .innerJoin(tags, eq(documentTags.tagId, tags.id))
+    .innerJoin(documentContents, eq(nodes.id, documentContents.nodeId))
+);
+
+// sujith_id: sql`${nodes.id} AS sujith_id`,
+//     parentId: sql`${nodes.parentId} AS parent_id`,
+//     userId: sql`${nodes.userId} AS user_id`,
+//     nodeName: sql`${nodes.name} AS node_name`,
+    
+//     tagId: sql`${tags.id} AS tag_id`,
+//     tagName: sql`${tags.name} AS tag_name`,
+    
+//     content: sql`${documentContents.content} AS content`,
+
+// `nodes`.`id`,
+//      `nodes`.`parent_id`,
+//      `nodes`.`user_id`,
+//      `nodes`.`name` ,
+//      `document_tags`.`node_id`,
+//      `tags`.`id` as 'tag_id',
+//      `tags`.`name` as 'tag_name'

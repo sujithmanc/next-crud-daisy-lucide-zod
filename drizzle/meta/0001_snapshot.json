@@ -1,8 +1,8 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "cb36f48f-b6a6-4278-9169-ca3cedac9cdc",
-  "prevId": "c0a4fceb-1c9e-48b4-91fc-dde7a89e4104",
+  "id": "718efa3e-b4aa-4504-8b29-6688ecc84af5",
+  "prevId": "ca756fa9-2a12-447c-8a35-a1eacec192d8",
   "tables": {
     "employees": {
       "name": "employees",
@@ -636,10 +636,10 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "nodes_user_id_users_id_fk": {
-          "name": "nodes_user_id_users_id_fk",
+        "nodes_user_id_prompt_users_id_fk": {
+          "name": "nodes_user_id_prompt_users_id_fk",
           "tableFrom": "nodes",
-          "tableTo": "users",
+          "tableTo": "prompt_users",
           "columnsFrom": [
             "user_id"
           ],
@@ -664,6 +664,74 @@
           "columns": [
             "parent_id",
             "name"
+          ]
+        }
+      },
+      "checkConstraint": {}
+    },
+    "prompt_users": {
+      "name": "prompt_users",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "username": {
+          "name": "username",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "(now())"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "onUpdate": true,
+          "default": "(now())"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "prompt_users_id": {
+          "name": "prompt_users_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "prompt_users_username_unique": {
+          "name": "prompt_users_username_unique",
+          "columns": [
+            "username"
+          ]
+        },
+        "prompt_users_email_unique": {
+          "name": "prompt_users_email_unique",
+          "columns": [
+            "email"
           ]
         }
       },
@@ -716,7 +784,52 @@
       "checkConstraint": {}
     }
   },
-  "views": {},
+  "views": {
+    "documents_with_tags_view": {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "parent_id": {
+          "name": "parent_id",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "content": {
+          "name": "content",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "name": "documents_with_tags_view",
+      "isExisting": false,
+      "definition": "select `nodes`.`id`, `nodes`.`parent_id`, `nodes`.`user_id`, `nodes`.`name`, `tags`.`id`, `tags`.`name`, `document_contents`.`content` from `nodes` inner join `document_tags` on `nodes`.`id` = `document_tags`.`node_id` inner join `tags` on `document_tags`.`tag_id` = `tags`.`id` inner join `document_contents` on `nodes`.`id` = `document_contents`.`node_id`",
+      "algorithm": "undefined",
+      "sqlSecurity": "definer"
+    }
+  },
   "_meta": {
     "schemas": {},
     "tables": {},
